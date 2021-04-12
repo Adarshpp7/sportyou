@@ -1,0 +1,64 @@
+{% extends 'baseuser.html' %}
+{% block content %}
+<div class="featured-product product">
+    <div class="container-fluid">
+        <div class="section-header">
+            <h1>Trending now</h1>
+        </div>
+        <div class="row align-items-center product-slider product-slider-4">
+            {% for i in products %}
+            <div class="col-lg-3">
+                <div class="product-item">
+                    <div class="product-title">
+                        <a href="#">{{i.name}} </a>
+                        
+                        <div class="ratting">
+                            <!-- <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i> -->
+                            {% if i.category_name.discount != 0 %}
+                        <i class="fa fa-gift" style="color: rgb(72, 255, 0); font-size: 15pt;" aria-hidden="true">{{i.category_name.discount}}% OFF</i>
+                        {% endif %}
+                        </div> 
+                    </div>
+                    <div class="product-image" style="align-items: center;">
+                        <a href="product-detail.html">
+                            <img src=" {{i.imageurl}}" style="width: 17em; height: 17em;" alt="Product Image">
+                        </a>
+                        <div class="product-action">
+                            <a href="{% url 'addcart' i.id %}"><i class="fa fa-cart-plus"></i></a>
+                            <a href="#"><i class="fa fa-heart"></i></a>
+                            <a href="{% url 'productdetails' i.id %}"><i class="fa fa-search"></i></a>
+                        </div>
+                    </div>
+                    <!-- <div class="product-price">
+                        <h3 style="font-size: 12pt;"><span> <i class="fas fa-rupee-sign"></i></span>{{i.price}}</h3>
+                        <a class="btn" href="{% url 'buynow' i.id %}"><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                    </div> -->
+                    <div class="product-price">
+                        {% if i.category_name.discount != 0 %}
+                        <div class="row col-sm-12 justify-content-center">
+                        <h3 style="font-size: 12pt;"><span> <i class="fas fa-rupee-sign"></i></span><del style="color: red;">{{i.price}}</del>   {{i.discount_price}}</h3>
+                        </div>
+                        {% else %}
+                        <div class="row col-sm-12 justify-content-center">
+                        <h3 style="font-size: 12pt;"><span> <i class="fas fa-rupee-sign"></i></span>{{i.price}}</h3>
+                        </div>
+                        {% endif %}
+                        <div class="row col-sm-12 justify-content-center pt-1">
+                        <a class="btn" href="{% url 'buynow' i.id %}"><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+           
+           
+           
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

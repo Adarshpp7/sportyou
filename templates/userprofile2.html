@@ -1,0 +1,172 @@
+{% extends 'baseuser.html' %}
+{% block content %}
+        
+        <!-- Breadcrumb Start -->
+        <div class="breadcrumb-wrap">
+            <div class="container-fluid">
+                <h6>your referral code:  </h6> <h6 style="color: red;">{{myuser.referral_code}}</h6>
+                <!-- <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Products</a></li>
+                    <li class="breadcrumb-item active">My Account</li>
+                </ul> -->
+            </div>
+        </div>
+        <!-- Breadcrumb End -->
+        
+        <!-- My Account Start -->
+        <div class="my-account">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="nav flex-column nav-pills mt-4" role="tablist" aria-orientation="vertical">
+                            <a class="nav-link active" id="dashboard-nav" data-toggle="pill" href="#dashboard-tab" role="tab"><i class="fa fa-user"></i>PERSONAL DETAILS</a>
+                            <a class="nav-link" id="orders-nav" data-toggle="pill" href="#orders-tab" role="tab"><i class="fa fa-shopping-bag"></i>YOUR ORDERS</a>
+                            <a class="nav-link" id="payment-nav" data-toggle="pill" href="#address-tab" role="tab"><i class="fa fa-map-marker-alt"></i>YOUR ADDRESSES</a>
+                            <a class="nav-link" id="address-nav" data-toggle="pill" href="" role="tab"><i class="fa fa-map-marker-alt"></i>YOUR WISHLIST</a>
+
+                           
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="dashboard-tab" role="tabpanel" aria-labelledby="dashboard-nav">
+                                <div class="card">
+                                    <div class="card-body">
+                                      <div class="d-flex flex-column align-items-center text-center">
+                                        <img src="{{myuser.imageuserurl}}" id="" alt="Admin" class="rounded-circle" width="150">
+                                        <div class="mt-3">
+                                          <h6>{{myuser.user.first_name}}</h6>
+                                          <h6>{{myuser.user.last_name}}</h6>
+                                          <h6>{{myuser.user.email}}</h6>
+                                          <h6>{{myuser.phone_number}}</h6>                      
+                                          <button class="btn btn-primary"><a href="{% url 'edituser' myuser.user.id %}" >EDIT</a></button>
+                                          <button class="btn btn-primary"><a href="{% url 'changepassword' myuser.user.id %}" >CHANGE PASSWORD</a></button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                            </div>
+                            <div class="tab-pane fade" id="orders-tab" role="tabpanel" aria-labelledby="orders-nav">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                
+                                                <th>Product</th>
+                                                <th>address</th>
+                                                <th>status</th>
+                                                <th>count</th>
+                                                <th>price</th>
+                                                <th>payment method</th>
+                                                <th>date</th>
+                                                <th>date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for i in orders %}
+                                            <tr>
+                                                <td >{{i.product.name}}</td>
+                                                <td >{{i.address.housename}},{{i.address.street}},{{i.address.city}},{{i.address.district}},{{i.address.state}},{{i.address.pincode}} </td>
+                                                <td >{{i.status}}</td>
+                                                <td >{{i.count}}</td>
+                                                <td >{{i.price}}</td>
+                                                <td >{{i.payment_method}}</td>
+                                                <td >{{i.date}}</td>
+                                                {% if i.status != 'delivered' %}
+                                                <td ><button class="btn-danger"><a href="{% url 'order_cancel' i.id %}">Cancel Order</a> </button></td>
+                                                {% else %}
+                                                <td ></td>
+                                                {% endif %}
+                                            </tr>
+                                            {% endfor %}
+                                  
+                                          
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="payment-tab" role="tabpanel" aria-labelledby="payment-nav">
+                                <h4>Payment Method</h4>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. In condimentum quam ac mi viverra dictum. In efficitur ipsum diam, at dignissim lorem tempor in. Vivamus tempor hendrerit finibus. Nulla tristique viverra nisl, sit amet bibendum ante suscipit non. Praesent in faucibus tellus, sed gravida lacus. Vivamus eu diam eros. Aliquam et sapien eget arcu rhoncus scelerisque.
+                                </p> 
+                            </div>
+                            <div class="container tab-pane fade" id="address-tab" role="tabpanel" aria-labelledby="address-nav">
+                               <!-- <div class="row text-center">
+                                <div class="col-sm-12 m-3">
+                                <h4><b>ADDRESSES</b> </h4>
+                               </div>
+                               </div>  -->
+                                <!-- <div class="row">
+                                    <div class="col-md-6">
+                                        <h5>Payment Address</h5>
+                                        <p>123 Payment Street, Los Angeles, CA</p>
+                                        <p>Mobile: 012-345-6789</p>
+                                        <button class="btn">Edit Address</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5>Shipping Address</h5>
+                                        <p>123 Shipping Street, Los Angeles, CA</p>
+                                        <p>Mobile: 012-345-6789</p>
+                                        <button class="btn">Edit Address</button>
+                                    </div>
+                                </div> -->
+                                <div class="row">
+                                {% for i in addresses %}
+                                <div class="col-md-4" >
+                                    <h6 style=" font-size: 10pt;">{{i.housename}}, {{i.street}}, {{i.city}}, {{i.district}}, {{i.state}}</h6>   
+                                    <h6 style=" font-size: 10pt;">{{i.pincode}}</h6>              
+                                    <button type="button" onclick="delclick('{{i.id}}')" style="color: violet;"><i class="far fa-trash-alt"></i> </button>        
+                                </div>
+                                {% endfor %}
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="account-tab" role="tabpanel" aria-labelledby="account-nav">
+                                <h4>Account Details</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input class="form-control" type="text" placeholder="First Name">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input class="form-control" type="text" placeholder="Last Name">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input class="form-control" type="text" placeholder="Mobile">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input class="form-control" type="text" placeholder="Email">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input class="form-control" type="text" placeholder="Address">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <button class="btn">Update Account</button>
+                                        <br><br>
+                                    </div>
+                                </div>
+                                <h4>Password change</h4>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input class="form-control" type="password" placeholder="Current Password">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input class="form-control" type="text" placeholder="New Password">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input class="form-control" type="text" placeholder="Confirm Password">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <button class="btn">Save Changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- My Account End -->
+        {% endblock %}
+        
+        

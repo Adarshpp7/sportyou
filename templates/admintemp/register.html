@@ -1,0 +1,480 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Register</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'adminstatic/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.1.0/cropper.css" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="{% static 'adminstatic/css/sb-admin-2.min.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <!-- <div class="col-lg-5 d-none d-lg-block "></div> -->
+                    <div class="col-lg-12">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4"><b> Your Product Details</b>
+                                   </h1>
+                            </div>
+                            <form class="user" enctype="multipart/form-data" action="{% url 'adminproductadd' %}" method="POST">
+                                {% csrf_token %}
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text"  name="name"  class="form-control " id="name"
+                                            placeholder="Product Name">
+                                    </div>
+                                    <div class="col-sm-6">
+                                      <select name="category"  class="form-control" id="category">
+                                         {% for j in category %}
+                                            <option >{{j.category}}</option>
+                                         {% endfor %}
+                                      </select>  
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="number" name="weight" class="form-control " id="weight"
+                                            placeholder="Enter the weight">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="number" name="price" class="form-control f" id="price"
+                                            placeholder="Enter the price">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                   <input type="text" style="height: 10em;" name="discription" class="form-control" id="discription"
+                                    placeholder="Product discription">
+                                </div>
+                                <div class="form-group row " style="margin-bottom: 12em;">
+                                    <div class="col-sm-4 custom-file ">
+                    
+                                        <!-- <img id="img1" src="{{products.imageurl}}" style="width: 6em; height: 7em;" alt="your image" > -->
+                                        <img id="imag1" src="" style="width: 6em; height: 7em; visibility: hidden;" alt="your image" >
+                                       
+                                        <img src=""  id="img1" style="width: 200px;height: 150px; visibility: hidden;" alt="">
+                                      
+
+
+                                        <br>
+                                        <label class="" for="customFile">image1</label>
+                                        <input type="file" class=" form-control-file"  name="image1"  id="image1" required onchange="readURL(this);"/>
+                                        <div class="" name="cropped_result" id="cropped_result"></div>  
+                                        <textarea name="imageurl1" id="imageurl1" cols="30" rows="10"  hidden></textarea>
+                                        <!-- // Will trigger crop event -->
+
+                                        <button type="button" style="visibility: hidden;" id="crop_button">Crop</button> 
+                                       
+                                    </div>
+                                    <div class="col-sm-4 custom-file ">
+                                      <!-- <img id="img2" src="{{products.imageurl}}" style="width: 6em; height: 7em;" alt="your image" > -->
+                                      <img id="imag2" src="" style="width: 6em; height: 7em; visibility: hidden;" alt="your image" >
+                                      <img src=""  id="img2" style="width: 200px;height: 150px; visibility: hidden;" alt="">
+
+                                      <br>
+                                      <label class="" for="customFile">image1</label>
+                                      <input type="file" class=" form-control-file"  name="image2"  id="image2"  required onchange="readURL4(this);"/>
+                                      <div class="" name="cropped_result2" id="cropped_result2"></div>  
+                                      <textarea name="imageurl2" id="imageurl2" cols="30" rows="10"  hidden></textarea>
+                                      <!-- // Will trigger crop event -->
+
+                                      <button style="visibility: hidden;" type="button" id="crop_button2">Crop</button> 
+                                        <!-- <img id="img2" src="{{products.imageurl2}}" style="width: 6em; height: 7em;" alt="your image" >
+                                      
+                                        <br>
+                                        <label class="" for="customFile">image2</label>
+                                        <input type="file" class=" form-control-file" name="image2" id="image2" required> -->
+                                    </div>
+                                    <div class="col-sm-4 custom-file ">
+                                      <img id="imag3" src="" style="width: 6em; height: 7em; visibility: hidden;" alt="your image" >
+                                      <img src=""  id="img3" style="width: 200px;height: 150px; visibility: hidden;" alt="">
+
+                                      
+                                      <label class="" for="customFile">image3</label>
+                                      <input type="file" class=" form-control-file"  name="image3"  id="image3"  required onchange="readURL5(this);"/>
+                                      <div class="" name="cropped_result3" id="cropped_result3"></div>  
+                                      <textarea name="imageurl3" id="imageurl3" cols="30" rows="10"  hidden></textarea>
+                                      
+                                      <button type="button" style="visibility: hidden;" id="crop_button3">Crop</button> 
+                                    </div>
+                                </div>
+                                
+                                <span id="error" style="color: darkred;"></span>
+                                <div class=" container col-md-12 ">
+                                    <div class="row justify-content-center "  style= "padding-top:6em;">
+                                      {% for message in messages %}
+                                  <span style="color: red; text-center">
+                                   {{message}}
+                                  </span>
+                                  {% endfor %}
+                                      
+                                      <button type="submit" id="bt" class="btn btn-success">Add Product</button>
+                                    </div>
+                                </div>
+                                                            
+                            </form>
+                            <hr>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.0.0/cropper.min.js"></script> 
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- <script>
+        function readURL1(input) {
+            if (input.files && input.files[0]) {
+              var reader = new FileReader();
+              
+              reader.onload = function(e) {
+                $('#img1').attr('src', e.target.result);
+              }
+              
+              reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+          }
+          
+          $("#image1").change(function() {
+            readURL1(this);
+          });
+    </script>
+    <script>
+        function readURL2(input) {
+            if (input.files && input.files[0]) {
+              var reader = new FileReader();
+              
+              reader.onload = function(e) {
+                $('#img2').attr('src', e.target.result);
+              }
+              
+              reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+          }
+          
+          $("#image2").change(function() {
+            readURL2(this);
+          });
+    </script>
+    <script>
+        function readURL3(input) {
+            if (input.files && input.files[0]) {
+              var reader = new FileReader();
+              
+              reader.onload = function(e) {
+                $('#img3').attr('src', e.target.result);
+              }
+              
+              reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+          }
+          
+          $("#image3").change(function() {
+            readURL3(this);
+          });
+    </script> -->
+    <script>
+        var cropper = new Cropper(document.getElementById('img1'),{});
+        function readURL(input) {
+          cropper.destroy()
+          document.getElementById('crop_button').style.visibility = 'visible' 
+          document.getElementById('img1').style.visibility ='visible'
+          document.getElementById('imag1').src = ''
+        
+            if (input.files && input.files[0]) {
+              var reader = new FileReader();
+              reader.onload = function (e) {
+                $('#img1').attr('src', e.target.result)
+              };
+              reader.readAsDataURL(input.files[0]);
+              setTimeout(initCropper, 1000);
+            }
+          }
+          function initCropper(){
+            console.log("Came here")
+            var image = document.getElementById('img1');
+            var cropper = new Cropper(image, {
+              aspectRatio: 1/1,
+              viewMode:1,
+              cropBoxResizable:false,
+              data:{
+                width:650,height:650
+              },
+              crop: function(e) {
+                console.log(e.detail.x);
+                console.log(e.detail.y);
+              }
+            });
+          
+            // On crop button clicked
+            document.getElementById('crop_button').addEventListener('click', function(){
+              var imgurl =  cropper.getCroppedCanvas().toDataURL();
+             // var img = document.createElement("img");
+             // img.src = imgurl;
+             document.getElementById("imag1").src=imgurl
+             document.getElementById('imag1').style.visibility ='visible'
+             document.getElementById('crop_button').style.visibility='hidden'
+             document.getElementById('img1').style.visibility ='hidden'
+                $('#imageurl1').val(imgurl)
+                cropper.destroy()
+                //console.log($('#imageurl1').val())
+                //document.getElementById("cropped_result").appendChild(imag1);
+          
+              /* ---------------- SEND IMAGE TO THE SERVER-------------------------
+          
+                          cropper.getCroppedCanvas().toBlob(function (blob) {
+                                var formData = new FormData();
+                                formData.append('croppedImage', blob);
+                                // Use `jQuery.ajax` method
+                                $.ajax('/path/to/upload', {
+                                  method: "POST",
+                                  data: formData,
+                                  processData: false,
+                                  contentType: false,
+                                  success: function () {
+                                    console.log('Upload success');
+                                  },
+                                  error: function () {
+                                    console.log('Upload error');
+                                  }
+                                });
+                          });
+                      ----------------------------------------------------*/
+            })
+          }
+    </script>
+    <!-- <script>
+      function readURL4(input) {
+          if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+              $('#img2').attr('src', e.target.result)
+            };
+            reader.readAsDataURL(input.files[0]);
+            setTimeout(initCropper, 1000);
+          }
+        }
+        function initCropper(){
+          console.log("Came here")
+          var image = document.getElementById('img2');
+          var cropper = new Cropper(image, {
+            aspectRatio: 16 / 9,
+            crop: function(e) {
+              console.log(e.detail.x);
+              console.log(e.detail.y);
+            }
+          });
+        
+          // On crop button clicked
+          document.getElementById('crop_button2').addEventListener('click', function(){
+            var imgurl =  cropper.getCroppedCanvas().toDataURL();
+            var img = document.createElement("img2");
+            img.src = imgurl;
+              $('#imageurl2').val(imgurl)
+              console.log($('#imageurl2').val())
+            document.getElementById("cropped_result2").appendChild(img);
+        
+            /* ---------------- SEND IMAGE TO THE SERVER-------------------------
+        
+                        cropper.getCroppedCanvas().toBlob(function (blob) {
+                              var formData = new FormData();
+                              formData.append('croppedImage', blob);
+                              // Use `jQuery.ajax` method
+                              $.ajax('/path/to/upload', {
+                                method: "POST",
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success: function () {
+                                  console.log('Upload success');
+                                },
+                                error: function () {
+                                  console.log('Upload error');
+                                }
+                              });
+                        });
+                    ----------------------------------------------------*/
+          })
+        }
+  </script> -->
+   
+    <!-- <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $("#bt").click(function () {
+            var product_name = $("#name").val()
+            var category= $("#category").val()
+            var weight = $("#weight").val()
+            var prize = $("#prize").val()
+            var discription = $("#discription").val()
+            var image1= $("#image1").val()
+            
+           
+            var data = {
+                'csrfmiddlewaretoken': '{{csrf_token}}',
+                'product_name': product_name,
+                'category': category,
+                'weight': weight,
+                'price': price,
+                'discription': discription,
+                'image1': image1,
+            }
+
+            if (product_name == "") {
+                $('#error').html("enter product name")
+            }  else if (category == "") {
+                $('#error').html("enter category")
+            }  else if (weight == "") {
+                $('#error').html(" Enter weight")
+            }  else if (prize == "") {
+                $('#error').html("Enter prize")
+            }  else if (discription == "") {
+                $('#error').html("enter discription")
+            }else if (image1 == "") {
+                $('#error').html("upload image")
+            }
+             else {
+                $.ajax({
+                    url: '/admin1/adminproductadd/',
+                    method: 'POST',
+                    data: data,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data == 'true') {
+                            window.location.replace('/admin1/adminproductview/')
+                        }
+                        if (data == 'false') {
+                            $("#error").html("passwords are not matching")
+                        }
+                    }
+                })
+            }
+        })
+    </script> -->
+     <script>
+      var cropper = new Cropper2(document.getElementById('img2'),{});
+      function readURL4(input) {
+        cropper.destroy()
+        document.getElementById('crop_button2').style.visibility = 'visible'
+        document.getElementById('img2').style.visibility = 'visible'
+        document.getElementById('imag2').src = ''
+       
+        
+          if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+              $('#img2').attr('src', e.target.result)
+            };
+            reader.readAsDataURL(input.files[0]);
+            setTimeout(initCropper1, 1000);
+          }
+        }
+        function initCropper1(){
+          console.log(" heeiiidjk njnjn j")
+          var image = document.getElementById('img2');
+          var cropper = new Cropper(image, {
+            aspectRatio: 1/1,
+            viewMode:1,
+            cropBoxResizable:false,
+            data:{
+              width:650,height:650
+            },
+            crop: function(e) {
+              console.log(e.detail.x);
+              console.log(e.detail.y);
+            }
+          });
+          document.getElementById('crop_button2').addEventListener('click', function(){
+            var imgurl2 =  cropper.getCroppedCanvas().toDataURL();
+            document.getElementById("imag2").src=imgurl2
+            document.getElementById('imag2').style.visibility ='visible'
+            document.getElementById('crop_button2').style.visibility ='hidden'
+            document.getElementById('img2').style.visibility ='hidden'
+            $('#imageurl2').val(imgurl2)
+            cropper.destroy()
+            //console.log($('#imageurl2').val())
+
+          })
+        }
+       </script>
+       <script>
+        var cropper = new Cropper3(document.getElementById('img3'),{});
+        function readURL5(input) {
+         cropper.destroy()
+         document.getElementById('crop_button3').style.visibility = 'visible'
+         document.getElementById('img3').style.visibility ='visible'
+         document.getElementById('imag1').src = ''
+        
+            if (input.files && input.files[0]) {
+              var reader = new FileReader();
+              reader.onload = function (e) {
+                $('#img3').attr('src', e.target.result)
+              };
+              reader.readAsDataURL(input.files[0]);
+              setTimeout(initCropper2, 1000);
+            }
+          }
+          function initCropper2(){
+            var image = document.getElementById('img3');
+            var cropper = new Cropper(image, {
+              aspectRatio: 1/1,
+              viewMode:1,
+              cropBoxResizable:false,
+              data:{
+                width:650,height:650
+              },
+              crop: function(e) {
+                console.log(e.detail.x);
+                console.log(e.detail.y);
+              }
+            });
+            document.getElementById('crop_button3').addEventListener('click', function(){
+              var imgurl3 =  cropper.getCroppedCanvas().toDataURL();
+              document.getElementById("imag3").src=imgurl3
+              document.getElementById('imag3').style.visibility ='visible'
+              document.getElementById('crop_button3').style.visibility = 'hidden'
+              document.getElementById('img3').style.visibility ='hidden'
+              $('#imageurl3').val(imgurl3)
+              cropper.destroy()
+              //console.log($('#imageurl3').val())
+  
+            })
+          }
+         </script>
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'adminstatic/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'adminstatic/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'adminstatic/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'adminstatic/js/sb-admin-2.min.js' %}"></script>
+
+</body>
+
+</html>

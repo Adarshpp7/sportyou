@@ -1,0 +1,66 @@
+{% extends 'baseuser.html' %}
+{% block content %}
+   
+<div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
+        <!-- Nested Row within Card Body -->
+        <div class="row">
+            <!-- <div class="col-lg-5 d-none d-lg-block "></div> -->
+            <div class="col-lg-12">
+                <div class="p-5">
+                    <div class="text-center">
+                        <h1 class="h4 text-gray-900 mb-4"><b> Your address </b> </h1>
+                    </div>
+                    <form class="user" enctype="multipart/form-data" action="{% url 'addressadd' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group row">
+                            <div class="col-sm-9 mb-3 mb-sm-0">
+                                <input type="text"  name="housename"  class="form-control " id="housename"
+                                    placeholder="housename">
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text"  name="street"  class="form-control " id="street"
+                                placeholder="street">
+                             
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text"  name="city"  class="form-control " id="city"
+                                placeholder="city">
+                             
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text"  name="district"  class="form-control " id="district"
+                                placeholder="district">
+                             
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text"  name="state"  class="form-control " id="state"
+                                placeholder="state">
+                             
+                            </div>
+                            <div class="col-sm-3">
+                                <input type="text"  name="pincode"  class="form-control " id="pincode"
+                                placeholder="PINCODE">
+                             
+                            </div>
+                            <div class=" col-sm-12 text-center " style="" ><button class="btn-success" type="submit">
+                                <a href=""></a> ADD</button>
+                            </div>
+                        </div>
+                       
+                        
+                      
+                        
+                        
+                     
+                                                    
+                    </form>
+                    <hr>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

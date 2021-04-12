@@ -1,0 +1,77 @@
+{% extends 'baseuser.html' %}
+{% block content %}
+<!-- <form action="/paypal/" method="POST">
+    {% csrf_token %}
+    <script
+        src="https://checkout.razorpay.com/v1/checkout.js"
+        data-key="rzp_test_653B0fy4HUtQQO"
+        data-amount="29935" 
+        data-currency="INR"
+        data-order_id=""
+        data-buttontext="Pay with Razorpay"
+        data-name="Acme Corp"
+        data-description="A Wild Sheep Chase is the third novel by Japanese author Haruki Murakami"
+        data-image="https://example.com/your_logo.jpg"
+        data-prefill.name="Gaurav Kumar"
+        data-prefill.email="gaurav.kumar@example.com"
+        data-theme.color="#F37254"
+    ></script>
+    <input type="hidden" custom="Hidden Element" name="hidden">
+    </form> -->
+    <div class="container" style="padding-top: 100pt; padding-bottom: 100pt;">
+<div  class="container text-center  text-muted mb-4 " style="  margin: auto; background-color: lightgrey;
+width: 60%;
+border: 3px solid #19075a;
+padding: 10px;">
+    <div class="row justify-content-center "  >
+        <button class="btn-success p-4" style="background-color: green;" id="rzp-button1"><h4>Continue with Razorpay</h4 ></button>
+    </div>
+
+</div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    console.log("{{total}}")
+var options = {
+    "key": "rzp_test_653B0fy4HUtQQO", // Enter the Key ID generated from the Dashboard
+    "amount": "{{total}}"*100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "{{user.username}}",
+    "description": "Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": "", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function (response){
+        window.location.replace('/payrazor/')
+        //alert(response.razorpay_payment_id);
+        //alert(response.razorpay_order_id);
+        //alert(response.razorpay_signature)
+    },
+    "prefill": {
+        "name": "{{user.username}}",
+        "email": "{{user.email}}",
+        "contact": "9999999999"
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+var rzp1 = new Razorpay(options);
+rzp1.on('payment.failed', function (response){
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+});
+document.getElementById('rzp-button1').onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+}
+</script>
+{% endblock %}

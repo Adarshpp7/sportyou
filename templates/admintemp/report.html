@@ -1,0 +1,127 @@
+{% extends 'admintemp/blank.html' %}
+{% block link %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" href=" https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+{% endblock %}
+{% block content %}
+<nav class="navbar navbar-expand navbar-light bg-info topbar mb-4 static-top shadow">
+    <div class="container">
+        <div class="row col-sm-12 justify-content-center">
+          <h1><b> SALES REPORT</b> </h1>
+        </div>      
+    </div>
+
+</nav>
+
+<div class="container-fluid">
+    <div class="row "> 
+        <div class=" col-12 mb-2 col-md-6 text-center">
+            <label for="">From date</label>
+            <input id="from" onchange="from_date(event)" min="" max="" type="date">
+        </div>
+        <div class="col-12 col-md-6  text-center">
+            <label for="">To date</label>
+            <input id="to" min="" max="" type="date">
+        </div>
+        <div class="col-md-12 mt-2 mb-2 text-center">
+            <button type="button" onclick="filterreport()" class="btn-success">Search</button>
+        </div>
+    </div>
+    <div class="row col-sm-12 justify-content-end mb-4">
+        <a href="{% url 'excel_export' %}" class="btn-dark p-2"> <h6 style="color: white;"><i
+            class="fas fa-download fa-sm text-white-50">Export to Excel</i></h6></a>
+    </div>
+
+
+    
+    <!-- Page Heading -->
+  
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary"></h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>User</th>
+                            <th>Price(per unit)</th>
+                            <th>Quantity</th>
+                            <th>Order_date</th>
+                            <th>Order_status</th>
+                        </tr>
+                    </thead>
+                   
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+                            <td>{{order.product.name}} </td>
+                            <td>{{order.user.user.username}} </td>
+                            <td>{{order.price}}</td>
+                            <td>{{order.count}}</td>
+                            <td>{{order.date}}</td>
+                            <td>{{order.status}}</td>
+                           
+                            
+                        </tr>
+                        {% endfor %}
+                        
+                    </tbody>
+                </table>
+            </div>   
+        </div>        
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function() {
+    $('#example').DataTable();
+} );
+</script>
+<script>
+    function filterreport(){
+         var f_date = document.getElementById('from').value;
+         var t_date = document.getElementById('to').value;
+         console.log(f_date)
+         console.log(typeof f_date)
+         var data = {
+            'csrfmiddlewaretoken':'{{csrf_token}}',
+            'f_date':f_date,
+            't_date':t_date,
+             
+                     }
+            console.log(data,'heyy')
+         $.ajax({
+            url: '/admin1/adminreport/',
+            method:'POST',
+            data:data, 
+            dataType:'json',
+            success:function(data){
+                if (data == 'true'){
+                     window.location.replace('/admin1/reportfilter/')
+                }
+            }
+            
+
+         })
+    }
+</script>
+<script>
+    function from_date(event){
+        var today = new Date();
+        console.log(today)
+        var min_date = event.target.value;
+        document.getElementById('to').min = min_date
+        document.getElementById('to').max = today
+        console.log(document.getElementById('to').max)
+    }
+</script>
+
+
+{% endblock %}

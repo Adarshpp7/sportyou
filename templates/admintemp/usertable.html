@@ -1,0 +1,78 @@
+{% extends 'admintemp/blank.html' %}
+{% block link %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" href=" https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+
+
+{% endblock %}
+
+{% block content %} 
+<nav class="navbar navbar-expand navbar-light bg-info topbar mb-4 static-top shadow">
+    <div class="container">
+        <div class="row col-sm-12 justify-content-center">
+          <h1><b>Your Users</b> </h1>
+        </div>
+    </div>
+
+</nav>
+<div class="container-fluid">
+    
+    
+    <!-- Page Heading -->
+  
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary"></h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>first Name</th>
+                            <th>Last Name</th>
+                            <th>email</th>
+                            <th>Phone number</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                   
+                    <tbody>
+                        {% for data in datas %}
+                        <tr>
+                            <td>{{data.user.first_name}} </td>
+                            <td>{{data.user.last_name}} </td>
+                            <td>{{data.user.email}}</td>
+                            <td>{{data.phone_number}} </td>
+                            {% if data.user.is_active == False %} 
+                                
+                                <td><a href="{% url 'adminuserblock' data.user.id %}"> <button class="btn btn-success">UNBLOCK</button> </a></td>
+                            {% else %}
+                                <td><a href="{% url 'adminuserblock' data.user.id %}"><button class="btn btn-warning">BLOCK</button></a></td>
+                            {% endif %}
+                            <td><a href="{% url 'adminuserdelete' data.user.id %}"><button class="btn btn-danger">DELETE</button></a></td>
+                            
+                        </tr>
+                        {% endfor %}
+                        
+                    </tbody>
+                </table>
+            </div>   
+        </div>        
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function() {
+    $('#example').DataTable();
+} );
+</script>
+
+
+
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends 'baseuser.html' %}
+
+{% block content %}
+<div class="">
+<div class="row offset-md-3" >
+    <div class="col-sm-4 bg-secondary text-center">
+        <img src="" alt="">
+        <h6 style="color: white;">{{myuser.user.username}}</h6>
+        <a  href="{% url 'edituser' myuser.user.id %} "><h6 style="color: white;">EDIT</h6></a>
+        <a  href="{% url 'changepassword' myuser.user.id %} "><h6 style="color: white;">Change Password</h6></a>
+        
+
+    </div>
+    <div class="col-sm-4  bg-dark p-5 text-center " >
+    <h6 style="color: white;"> {{myuser.user.first_name}}</h6>
+    <h6 style="color: white;"> {{myuser.user.last_name}} </h6>
+    <h6 style="color: white;">{{myuser.user.email}} </h6>
+    <h6 style="color: white;"> {{myuser.phone_number}} </h6>
+        
+    </div>
+    
+</div>
+<div >
+
+</div>
+</div>
+<div >
+<!-- <div class="row bg-dark m-4 ">
+    <div class="col-sm-6 m-4">
+        <div class="row">
+            <h6 style="color: white;"></h6>
+        </div>
+        {% for i in usercarts %}
+        <div class="row bg-secondary mb-2">
+            <div class="col-sm-4">
+                <h6 style="color: white;">{{i.product.name}}</h6>
+            </div>
+            <div class="col-sm-4">
+                <h6> <img src="{{i.product.imageurl}}" style="height: 6em; width: 6em;" alt=""></h6>
+            </div>
+            <div class="col-sm-1">
+                <h6 style="color: white;">{{i.count}}</h6>
+            </div>
+            <div class="col-sm-3">
+                <h6 style="color: white;">{{i.date}}</h6>
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+    <div class="col-sm-5  text-center " style="margin-top: 13em;">
+        <h2 style="color: white;">YOUR CART</h2>
+    </div>
+</div> -->
+<div class="row text-center  m-4" style="background-color: darkgray;">
+    <div class="col-sm-12 p-3"> <h3><b>YOUR ORDERS</b> </h3></div>
+   
+</div>
+<div class="row bg-dark m-4" style="margin-top: 4em;"> 
+    
+    
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="example" class="table table-striped table-bordered col-sm-12 col-md-12" style="width:100%">
+                <thead>
+                    <tr>
+                       
+                        <th style="color: white;">Product</th>
+                        <th style="color: white;">Address</th>
+                        <th style="color: white;">Status</th>
+                        <th style="color: white;">Count</th>
+                        <th style="color: white;">Price</th>
+                        <th style="color: white;">Payment_Method</th>
+                        <th style="color: white;">Date</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    {% for i in orders %}
+                    <tr>
+                       
+                        <td style="color: white;">{{i.product.name}}</td>
+                        <td style="color: white;">{{i.address.housename}},{{i.address.street}},{{i.address.city}},{{i.address.district}},{{i.address.state}},{{i.address.pincode}} </td>
+                        <td style="color: white;">{{i.status}}</td>
+                        <td style="color: white;">{{i.count}}</td>
+                        <td style="color: white;">{{i.price}}</td>
+                        <td style="color: white;">{{i.payment_method}}</td>
+                        <td style="color: white;">{{i.date}}</td>
+                       
+                    </tr>
+                    {% endfor %}
+                    
+                </tbody>
+            </table>
+        </div>   
+    </div>
+
+</div>
+<div class="row text-center m-4 ">
+    <div class="col-sm-12 p-3 " style="background-color: darkgray;"> <h3><b>YOUR ADDRESSES</b> </h3></div>
+   
+</div>
+<div class=" row bg-dark m-4 offset-md-2 ">
+  
+    
+    
+</div>
+   
+</div>
+
+
+ 
+{% endblock %}

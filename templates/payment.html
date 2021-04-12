@@ -1,0 +1,52 @@
+{% extends 'baseuser.html' %}
+{% block content %}
+<div class="container bg-light text-muted mb-4 " style="  margin: auto;
+width: 40%;
+border: 3px solid #19075a;
+padding: 10px;"> 
+<div class="row " style="margin-top: 5em; margin-bottom: 5em; margin-left: 2em; margin-right: 2em;" id="paypal-button-container"></div>
+</div>
+
+<!-- Include the PayPal JavaScript SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id=AVsiur-tEsaxXwk8tP2BydgW8gRC1pSejnT5Zp7fFnVClqVp5xld1v4jYs2i23J2sfFer9RSZHNWQxLQ&currency=USD"></script>
+
+<script>
+    // Render the PayPal button into #paypal-button-container
+    paypal.Buttons({
+
+        // Set up the transaction
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: '{{total}}'
+                    }
+                }]
+            });
+        },
+
+        // Finalize the transaction
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                // Show a success message to the buyer
+                $.ajax({
+                    url:'/paypal/',
+                    method:'GET',
+                    datatype:'json',
+                    success:function(data){
+                        if (data=='true'){
+                          
+                            window.location.replace('/successpayment/')
+                        }
+                    }
+                })
+               // alert('Transaction completed by ' + details.payer.name.given_name + '!');
+               // window.location.replace('/paypal/')
+            });
+        }
+
+
+    }).render('#paypal-button-container');
+</script>
+
+{% endblock %}

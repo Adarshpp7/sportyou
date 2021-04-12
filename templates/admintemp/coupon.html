@@ -1,0 +1,207 @@
+{% extends 'admintemp/blank.html' %}
+{% block link %}
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+   <link rel="stylesheet" href=" https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+   
+
+
+{% endblock %}
+
+{% block content %} 
+<nav class="navbar navbar-expand navbar-light  bg-secondary topbar mb-4 static-top shadow" >
+    <div class="container">
+        <div class="row col-sm-12 justify-content-center">
+          <h1 style="color: rgb(0, 0, 7);"><b>Coupon management</b> </h1>
+        </div>
+    </div>
+
+</nav>
+                
+
+<div class="container-fluid">
+
+   
+            <div class="container m-2">
+                <div class="row justify-content-center">
+                    <div class="" style="color: rgb(20, 49, 212);"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        Add new coupon 
+                      </button>
+                        
+                          
+                          <!-- Modal -->
+                          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <form action="{% url 'admincoupon' %}" method="POST">
+                                    {% csrf_token %}
+                                 
+                                <div class="modal-body">
+                                   <input type="text" id="code" name="code" placeholder="code">                                      
+                                </div>
+                                <div class="modal-body">
+                                    <input type="text" id="off" name="off" placeholder="off">                                      
+                                 </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                  
+                                  <button type="submit" id="btc" class="btn btn-primary">Save changes</button>
+                                </div>
+                              </form>
+                              </div>
+                            </div>
+                          </div></div>
+                </div>
+            </div>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <!-- <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        </div> -->
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Coupon code</th>
+                            <th>Off</th>
+                            <th>Active</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                           
+                            
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {% for i in coupon %}
+                        <tr>
+                            <td>{{i.code}} </td>
+                            <td>{{i.off}}</td>
+                            <td>{{i.status}}</td>
+                            <td>         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{i.id}}">
+                                EDIT
+                              </button>
+                              
+                              <!-- Modal -->
+                              <div class="modal fade" id="exampleModal{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLabel1">Modal title</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <form >
+                                     
+                                    <div class="modal-body">
+                                       <input type="text" id="code{{i.id}}" name="code" value="{{i.code}}">                                      
+                                    </div>
+                                      
+                                    <div class="modal-body">
+                                        <input type="text" id="off{{i.id}}" name="off" value="{{i.off}}">                                      
+                                     </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                      <button type="button" id="btc" onclick="couponedit('{{i.id}}')" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                  </form>
+                                  </div>
+                                </div>
+                              </div></td>
+                            <td><a onclick="delcoupon('{{i.id}}')" ><button type="button" class="btn btn-danger">DELETE</button></a></td>
+                            {% if i.status == true %}
+                            <td><a onclick="statedit('{{i.id}}')" ><button type="button" class="btn btn-danger">DEACTIVATE</button></a></td>
+                            {% else %}
+                            <td><a onclick="statedit('{{i.id}}')" ><button type="button" class="btn btn-warning">CHANGE STATUS</button></a></td>
+                            {% endif %}
+                            
+                           
+                        </tr>
+                        {% endfor %}
+                        
+                    </tbody>
+                </table>
+            </div>   
+        </div>        
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function() {
+    $('#example').DataTable();
+} );
+</script>
+<script>
+    function couponedit(id){
+      var code = document.getElementById('code'+id).value;
+      var off = document.getElementById('off'+id).value;
+      console.log(off)
+      var data = {
+          'csrfmiddlewaretoken':'{{csrf_token}}',
+          'code':code,
+          'off':off,
+      }
+      console.log('koiiiii')
+      $.ajax({
+          url:'/admin1/couponedit/'+id+'/',
+          method : 'POST',
+          data : data, 
+          dataType :'json',
+          success : function(data){
+            if (data=='true'){
+              console.log('data')
+              window.location.replace('/admin1/admincoupon/')
+            }
+          }
+  
+  
+  
+      })
+  }
+  </script>
+  <script>
+      function delcoupon(id){
+        var s = confirm('do you realy want to delete this coupon?')
+        if (s==true){
+            console.log('you awre')
+            $.ajax({
+                url:'/admin1/couponedit/'+id+'/',
+                method:'GET',
+                success:function(data){
+                    if (data=='true1'){
+                        window.location.replace('/admin1/admincoupon/')
+                    }
+                }
+    
+            })
+      }
+     
+      }
+  </script>
+  <script>
+      function statedit(id){
+          $.ajax({
+              url:'/admin1/coupon_status/'+id+'/',
+              method:'GET',
+              success:function(data){
+                  if (data=='true'){
+                      window.location.replace('/admin1/admincoupon/')
+                  }
+              }
+          })
+      }
+  </script>
+
+
+{% endblock %}

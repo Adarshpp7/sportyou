@@ -1,0 +1,154 @@
+{% extends 'admintemp/blank.html' %}
+{% block link %}
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+   <link rel="stylesheet" href=" https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+   
+
+
+{% endblock %}
+
+{% block content %} 
+<nav class="navbar navbar-expand navbar-light bg-primary topbar mb-4 static-top shadow">
+    <div class="container">
+        <div class="row col-sm-12 justify-content-center">
+          <h1 style="color: rgb(8, 1, 15);"><b>Orders</b> </h1>
+        </div>
+    </div>
+
+</nav>
+
+<div class="container-fluid">
+
+           
+   
+            <!-- <div class="container m-2">
+                <div class="row justify-content-center">
+                    <div class="" style="color: darkgreen;"><a href="{% url 'adminaddproductcategory' %}"><button type="button" class="btn btn-success">Add New Category</button></a></div>
+                </div>
+            </div> -->
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <!-- <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        </div> -->
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Product</th>
+                            <th>Address</th>
+                            <th>Status</th>
+                            <th>Count</th>
+                            <th>Price</th>
+                            <th>Payment_Method</th>
+                            <th>Date</th>
+                            <th style="color: red;">EDIT STATUS</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {% for i in order %}
+                        <tr>
+                            <td>{{i.user.user.username}} </td>
+                            <td>{{i.product.name}}</td>
+                            <td>{{i.address.housename}},{{i.address.street}},{{i.address.city}},{{i.address.district}},{{i.address.state}},{{i.address.pincode}} </td>
+                            <td id="current_status{{i.id}}">{{i.status}}</td>
+                            <td>{{i.count}}</td>
+                            <td>{{i.price}}</td>
+                            <td>{{i.payment_method}}</td>
+                            <td>{{i.date}}</td>
+                            <td> <div class=" col-sm-6">
+                                {% if i.status != 'delivered' %}
+                                <select name=""  onchange="statuschange('{{i.id}}')" class="" id="stat_id{{i.id}}" >
+                                   {% for j in stat %}
+                                      {% if j == i.status %}
+                                        <option value="{{i.status}}" selected >{{j}}</option>
+                                      {% else %}
+                                        <option  >{{j}}</option>
+                                      {% endif %}
+                                   {% endfor %}
+                                </select> 
+                                {% endif %} 
+                              </div></td>
+                           
+                        </tr>
+                        {% endfor %}
+                        
+                    </tbody>
+                </table>
+            </div>   
+        </div>        
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function() {
+    $('#example').DataTable();
+} );
+</script>
+<script>
+    function statuschange(id){
+        var stat1 = document.getElementById("stat_id"+id).value;
+        var data = {
+            'csrfmiddlewaretoken':'{{csrf_token}}',
+            'stat1':stat1,
+            
+        }
+        if (stat1 == 'delivered'){
+           var s = confirm('do you realy want to change status as delivered')
+           if (s ==true ){
+            var data = {
+                'csrfmiddlewaretoken':'{{csrf_token}}',
+                'stat1':stat1,
+                
+            }
+            $.ajax({
+                url:'/admin1/statusedit/'+ id +'/',
+                method:'POST',
+                data:data,
+                dataType:'json',
+                success:function(data){
+                    if (data=='true'){
+                        window.location.replace('/admin1/adminorderlist/')
+                    }
+                }
+            })
+
+        }
+        else{
+            var c = document.getElementById("current_status"+id).textContent;
+            console.log(c)
+            document.getElementById("stat_id"+id).value = c
+        }
+     
+        }
+        else{
+            console.log('helooooo')
+            
+            $.ajax({
+                url:'/admin1/statusedit/'+ id +'/',
+                method:'POST',
+                data:data,
+                dataType:'json',
+                success:function(data){
+                    if (data=='true'){
+                        window.location.replace('/admin1/adminorderlist/')
+                    }
+                }
+            })
+
+        }
+     
+      
+    }
+
+
+</script>
+
+
+{% endblock %}

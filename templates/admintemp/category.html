@@ -1,0 +1,130 @@
+{% extends 'admintemp/blank.html' %}
+{% block link %}
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+   <link rel="stylesheet" href=" https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+   
+
+
+{% endblock %}
+
+{% block content %} 
+<nav class="navbar navbar-expand navbar-light bg-primary topbar mb-4 static-top shadow">
+    <div class="container">
+        <div class="row col-sm-12 justify-content-center">
+          <h1 style="color: rgb(8, 1, 15);"><b>Product Categories</b> </h1>
+        </div>
+    </div>
+
+</nav>
+
+<div class="container-fluid">
+
+           
+   
+            <div class="container m-2">
+                <div class="row justify-content-center">
+                    <div class="" style="color: darkgreen;"><a href="{% url 'adminaddproductcategory' %}"><button type="button" class="btn btn-success">Add New Category</button></a></div>
+                </div>
+            </div>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <!-- <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        </div> -->
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {% for i in category %}
+                        <tr>
+                            <td>{{i.category}} </td>
+                            {% if i.discount == 0 %}
+                            <td><!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{i.id}}">
+                                  ADD DISCOUNT
+                                </button>
+                                
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal{{i.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                        </button>
+                                      </div>
+                                      <form >
+                                       
+                                      <div class="modal-body">
+                                         <input type="text" id="discount{{i.id}}" name="discount" placeholder="discount%">                                      
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        {{i.id}}
+                                        <button type="button" id="btc" onclick="discountupdation('{{i.id}}')" class="btn btn-primary">Save changes</button>
+                                      </div>
+                                    </form>
+                                    </div>
+                                  </div>
+                                </div></td>
+                                {% else %}
+                                <td>
+                                  <button class="btn btn-danger"><a href="{% url 'discount_remove' i.id %}">REMOVE DISCOUND</a></button>
+
+                                </td>
+                                {% endif %}
+                                <td><button class="btn-danger"><a href="{% url 'category_delete' i.id %}">DELETE</a></button></td>
+                           
+                        </tr>
+                        {% endfor %}
+                        
+                    </tbody>
+                </table>
+            </div>   
+        </div>        
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function() {
+    $('#example').DataTable();
+} );
+</script>
+<script>
+  function discountupdation(id){
+    var discount = document.getElementById('discount'+id).value;
+    var data = {
+        'csrfmiddlewaretoken':'{{csrf_token}}',
+        'discount':discount,
+    }
+    $.ajax({
+        url:'/admin1/discount/'+id+'/',
+        method : 'POST',
+        data : data, 
+        dataType :'json',
+        success : function(data){
+          if (data=='true'){
+            window.location.replace('/admin1/adminproductcategory/')
+          }
+        }
+
+
+
+    })
+}
+</script>
+
+
+{% endblock %}

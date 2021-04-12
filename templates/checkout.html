@@ -1,0 +1,118 @@
+{% extends 'baseuser.html' %}
+{% block content %}
+<!-- <div class="container"> -->
+    <div class="container ">
+        <div class=" row justify-content-center p-2 bg-white ">
+            {% for i in address %}
+            <div class="col-md-5 col-12 m-3 bg-secondary p-3 " >
+                <h6 style="color: white; font-size: 10pt;">{{i.housename}}, {{i.street}}, {{i.city}}, {{i.district}}, {{i.state}}</h6>   
+                <h6 style="color: white; font-size: 10pt;">{{i.pincode}}</h6>              
+                <button type="button" onclick="delclick('{{i.id}}')" style="color: violet;">  <i class="far fa-trash-alt"></i></button> 
+                <input type="radio" onclick="addclick('{{i.id}}')" name="check" id="mycheck"> 
+                <label for="" style="color:black;font-size: smaller;">choose</label>    
+            </div>
+            {% endfor %}
+            
+            <div class=" col-12 col-md-12 p-3 text-center   my-auto ml-auto ">
+                <button class="btn bg-light"><a style="color:black;" href="{% url 'addressadd' %} "><b>ADD NEW ADDRESS</b> </a></button>
+                
+            </div>
+        
+             
+        </div>
+        
+        <!-- <div class="col-sm-4 bg-white m-1"> -->
+            
+          <div class="row">
+            <div class=" container col-sm-4 m-3  bg-white">
+                <div class="row pt-2 pb-2  justify-content-center " style="font-style: initial;">
+                    <div class="">
+                    <h6 style="font-size: 10pt;"><b> Order Summary</b></h6>
+                    </div>              
+                </div>
+                <div class="row mb-2">
+                    <div class="col-sm-8">
+                    <h6 style="font-size: 10pt;">Total Prize of all Products</h6>
+                    </div>
+                    <div class="col-sm-4 justify-content-end ">
+                    <h6 style="font-size: 10pt;" id="total" >{{grandtotal}} </h6>
+                    </div>
+                </div>
+                {% if ref_earnings != 0 %}
+                <div class="row mb-2">
+                    <div class="col-sm-8">
+                    <h6 style="font-size: 10pt;">referral earnings</h6>
+                    </div>
+                    <div class="col-sm-4 justify-content-end">
+                    <h6 style="font-size: 10pt;">{{ref_earnings}}</h6>
+                    </div>
+                </div>
+                <hr>
+                <div class="row mb-4">
+                    <div class="col-sm-8">
+                    <h6 style="font-size: 10pt;"><b>Total</b> </h6>
+                    </div>
+                    <div class="col-sm-4 justify-content-end">
+                    <h6 style="font-size: 10pt;"><b><i class="fas fa-rupee-sign grandtotal">{{total}}</i></b></h6>
+                    </div>
+                </div>
+                 {% else %}
+                <div class="row mb-4">
+                    <div class="col-sm-8">
+                    <h6 style="font-size: 10pt;"><b>Total</b> </h6>
+                    </div>
+                    <div class="col-sm-4 justify-content-end">
+                    <h6 style="font-size: 10pt;"><b><i class="fas fa-rupee-sign grandtotal">{{grandtotal}}</i></b></h6>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+       
+            <div class="container  m-3 col-sm-7 bg-light" >
+                <div class="row justify-content-center m-3" style="">
+                      <h5 style="font-family: fantasy; color: darkblue;"><b>Payment method</b></h5>
+                </div>
+                <div class="row justify-content-center  m-4" style="">
+                    <input type="radio"  id="cod" name="method" value="cod">
+                    <label for="1" style="font-size: 10.5pt;">COD</label><br>
+                    <input type="radio" id="paypal" name="method" value="paypal">
+                    <label for="paypal" style="font-size: 10.5pt;" >PAYPAL</label><br>
+                    <input type="radio" id="razorpay" name="method" value="razorpay">
+                    <label for="razorpay" style="font-size: 10.5pt;">RAZORPAY</label>
+                </div>
+                <div class="row justify-content-center" >
+                  <label for="">apply coupon</label>
+                 <input type="text" id="coupon_code" placeholder="code">
+                
+                </div>
+                <div class="row justify-content-center" >
+                
+                    {% for message in messages %}
+                    <span style="color: red; text-center">
+                       {{message}}
+                    </span>
+                    {% endfor %}
+                
+                </div>
+                <div class="row justify-content-center m-4 " style="" >
+                    <button class="bg-dark"  onclick = "clickadd()" type="button"><a style="color: white;" >place order</a></button>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- </div> -->
+
+    </div>
+    <!-- <div class="row">
+        <button><a href="{% url 'addressadd' %} ">add new address</a></button>
+
+    </div> -->
+
+
+<!-- </div> -->
+
+
+
+{% endblock %}

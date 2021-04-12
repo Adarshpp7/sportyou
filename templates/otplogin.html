@@ -1,0 +1,53 @@
+{% extends 'baseuser.html' %}
+{% block content %}
+<div class="container bg-light text-muted mb-4 " style="  margin: auto;
+width: 40%;
+border: 3px solid #19075a;
+padding: 10px;"> 
+    <div class="row pt-5  pb-3 ">
+        
+        <div class="col-md-12 pb-3" style="text-align: center;"><h3><b>OTP LOGIN</b></h3><hr></div>
+        <div><hr></div>
+    </div>
+    <div class="row" style="justify-content: center;">
+        <div class="col-md-8" ><input type="text" id="phone" class="form-control"  value="" placeholder="phone number"></div>
+    </div>
+    <div class="row pt-3" style="justify-content: center; margin-bottom: 6em;">
+        <div class="col-md-5 " style="padding-left: 5em;" ><button id="otpbt" onclick="otpaction()" class="btn-success" type="button"> GET OTP</button></div>
+    </div>
+    
+    
+    
+    
+</div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    function otpaction(){
+        console.log('heloooo')
+        var phone = document.getElementById('phone').value;
+        var data = {
+            'csrfmiddlewaretoken':'{{csrf_token}}',
+            'phone':phone
+        }
+        $.ajax({
+            url :'/loginwithphone/',
+            method :'POST',
+            data:data,
+            dataType:'json',
+            success:function(data){
+                if (data=='false'){
+                    alert('your phone number is not registered')            
+                }if (data=='true'){
+                    alert('OTP has been sent succesfully')
+                    window.location.replace('/otpconfirmation/')
+                }
+            }
+        })
+    }
+</script>
+
+
+
+{% endblock %}

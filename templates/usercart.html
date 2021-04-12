@@ -1,0 +1,82 @@
+{% extends 'baseuser.html' %}
+{% block content %}
+<div class="container col-sm-12 ">
+<div class="row">
+
+    <div class="container col-sm-12 col-md-8 text-center">
+    {% for j in current_usercart %}
+        <div class=" row mb-3 bg-white p-3" style="align-content: center;">
+        <div class=" col-md-3 col-12 p-3 ">
+            <img src="{{ j.product.imageurl }} " style="height: 6em; width: 6em;" alt="">
+        </div>
+        <div class=" col-md-6 col-12 p-3 ">
+            <h6 style="font-size: 10pt;">{{j.product.discription}} </h6>
+            <div class="quantity ">
+            <h6 style="font-size: 10pt;">Qnty: </h4>
+            <div class="qty ">
+                <form >
+                
+                <input type="text" name="ff" value="{{j.product.id}} " hidden>
+                <button class=" btn-plus" type="button" onclick="minus('{{j.id}}')"  value="-" style="width: 2em; height: 2em; color:rgb(172, 172, 192) ;">-</button>
+                <input style="width: 2em; height: 2em; text-align: center; color: red;" id="count{{j.id}}" type="text" name="count" value="{{j.count}} ">
+                <button class="btn-minus  " onclick="plus('{{j.id}}')"  type="button" value="+" id="min" style="width: 2em; height: 2em; color: rgb(172, 172, 192);" >+</button>
+                </form>
+            </div>
+            </div> 
+        </div>
+        <div class="col-md-3 col-12 p-3 " > 
+            <button type="button" onclick="delclick1('{{j.id}}')" class="btn-danger">remove</button> 
+            <br>
+            <br>
+            
+            <i class="fas fa-rupee-sign"><del>{{j.product.price}}</del> {{j.product.discount_price}} </i>
+
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+        
+    <div class=" container col-sm-12 col-lg-3 my-5  mb-5 bg-white">
+            <div class="row pt-2 pb-2 mt-5 justify-content-center " style="font-style: initial;">
+                <div class="">
+                <h6 style="font-size: 10pt;"><b> Order Summary</b></h6>
+                </div>              
+            </div>
+            <div class="row mb-2 mt-4">
+                <div class="col-sm-8">
+                <h6 style="font-size: 10pt;">Total Prize of all Products</h6>
+                </div>
+                <div class="col-sm-4 ">
+                <h6 style="font-size: 10pt;">{{grandtotal}} </h6>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-sm-9">
+                <h6 style="font-size: 10pt;">Shipping</h6>
+                </div>
+                <div class="col-sm-3">
+                <h6 style="font-size: 10pt;">FREE</h6>
+                </div>
+            </div>
+            <hr>
+            <div class="row mb-4">
+                <div class="col-sm-8">
+                <h6 style="font-size: 10pt;"><b>Total</b> </h6>
+                </div>
+                <div class="col-sm-4">
+                <h6 style="font-size: 10pt;"><b><i class="fas fa-rupee-sign">{{grandtotal}}</i></b></h6>
+                </div>
+            </div>
+            <div class="row justify-content-center mb-5 ">
+                <button class="btn-warning" style="width: 12em; height: 3em;"><a href="{% url 'checkout' %}">CHECKOUT</a> </button>
+
+            </div>
+    </div>
+        
+</div>
+</div>
+       
+        
+           
+              
+{% endblock %}
