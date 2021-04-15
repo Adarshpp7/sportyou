@@ -241,7 +241,9 @@ def cod(request):
             Order.objects.create(user=i.user,product=i.product,address=opted_address,status='ordered',count=i.count,price=total_price,payment_method='COD')
             i.delete()
             coupon_off = 0
-    del request.session['coupon_off']        
+    if request.session.has_key("coupon_off"):
+        del request.session['coupon_off']   
+     
     del request.session['id']
     current_user  = User.objects.get(id=request.user.id)
     current_myuser = MyUsers.objects.get(user=current_user)
@@ -271,7 +273,8 @@ def paypal(request):
             Order.objects.create(user=i.user,product=i.product,address=opted_address,status='ordered',count=i.count,price=total_price,payment_method='paypal')
             i.delete()
             coupon_off = 0
-    del request.session['coupon_off']        
+    if request.session.has_key("coupon_off"):
+        del request.session['coupon_off']         
     del request.session['id']
     current_user  = User.objects.get(id=request.user.id)
     current_myuser = MyUsers.objects.get(user=current_user)
@@ -302,7 +305,8 @@ def payrazor(request):
             Order.objects.create(user=i.user,product=i.product,address=opted_address,status='ordered',count=i.count,price=total_price,payment_method='razorpay')
             i.delete()
             coupon_off = 0
-    del request.session['coupon_off']
+    if request.session.has_key("coupon_off"):
+        del request.session['coupon_off']  
     del request.session['id']
     current_user  = User.objects.get(id=request.user.id)
     current_myuser = MyUsers.objects.get(user=current_user)

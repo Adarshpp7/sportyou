@@ -332,7 +332,7 @@ function delclick(id){
             method: 'GET',
             success:function(data){
                 if (data=='true'){
-                    window.location.replace('/checkout/')
+                    window.location.replace('/userprofile/')
                    
                 }
 
@@ -350,7 +350,7 @@ function delclick1(id){
             success:function(data){
                 if (data='true'){
                     console.log('hoem')
-                    window.location.replace('/showcart/')               
+                 window.location.replace('/showcart/')               
                 }
             }
         })
