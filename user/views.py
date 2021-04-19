@@ -226,10 +226,12 @@ def cod(request):
         return redirect(checkout)
     opted_address = AddressTable.objects.get(id=add_id)
     cart = UserCart.objects.filter(user=opted_address.user.user_id)
+
     if request.session.has_key('coupon_off'):
         coupon_off = request.session['coupon_off']
     else:
         coupon_off = 0
+
     for i in cart:
         if i.product.category_name == 0:   
             total_price = (i.count*i.product.price) - coupon_off   
@@ -241,6 +243,7 @@ def cod(request):
             Order.objects.create(user=i.user,product=i.product,address=opted_address,status='ordered',count=i.count,price=total_price,payment_method='COD')
             i.delete()
             coupon_off = 0
+
     if request.session.has_key("coupon_off"):
         del request.session['coupon_off']   
      
@@ -250,6 +253,7 @@ def cod(request):
     current_myuser.referral_earnings = 0
     current_myuser.save()
     return render(request,'successpage.html')
+
 def paypal(request):
     try:
         add_id = request.session['id']
@@ -335,10 +339,12 @@ def userprofile(request):
     usercarts = UserCart.objects.filter(user=myuser)
     context = {'myuser':myuser,'addresses':addresses,'orders':orders,'usercarts':usercarts}
     return render(request,'userprofile2.html', context)
+    
 def order_cancel(request,id):
     current_order = Order.objects.get(id=id)
     current_order.delete()
     return redirect(userprofile)
+
 def edituser(request,id):
     current_user = User.objects.get(id=id)
     current_myuser = MyUsers.objects.get(user=current_user)
